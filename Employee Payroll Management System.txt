@@ -1,0 +1,60 @@
+class Employee:
+    def __init__(self, name, emp_id, salary):
+        self.name = name
+        self.emp_id = emp_id
+        self.salary = salary
+
+    def display(self):
+        print("\nEmployee Name:", self.name)
+        print("Employee ID:", self.emp_id)
+        print("Basic Salary:", self.salary)
+
+class Payroll(Employee):
+
+    def calculate_salary(self):
+        bonus = self.salary * 0.10
+        total = self.salary + bonus
+
+        print("Bonus:", bonus)
+        print("Total Salary:", total)
+
+        with open("payroll.txt", "a") as file:
+            file.write(f"{self.name},{self.emp_id},{self.salary},{total}\n")
+
+        print("Payroll Saved Successfully!")
+
+    def show_records(self):
+        print("\n--- Employee Payroll Records ---")
+        try:
+            with open("payroll.txt", "r") as file:
+                print(file.read())
+        except FileNotFoundError:
+            print("No Records Found!")
+
+while True:
+    print("\n--- EMPLOYEE PAYROLL SYSTEM ---")
+    print("1. Add Employee")
+    print("2. View Payroll Records")
+    print("3. Exit")
+
+    choice = input("Enter Your Choice: ")
+
+    if choice == "1":
+        name = input("Enter Employee Name: ")
+        emp_id = input("Enter Employee ID: ")
+        salary = float(input("Enter Basic Salary: "))
+
+        emp = Payroll(name, emp_id, salary)
+        emp.display()
+        emp.calculate_salary()
+
+    elif choice == "2":
+        emp = Payroll("", "", 0)
+        emp.show_records()
+
+    elif choice == "3":
+        print("Thank You!")
+        break
+
+    else:
+        print("Invalid Choice!")
